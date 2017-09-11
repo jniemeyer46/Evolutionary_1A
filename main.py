@@ -1,4 +1,4 @@
-import config
+import Config
 
 def main():
 	print("hello")
