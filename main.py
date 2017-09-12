@@ -2,6 +2,7 @@ import sys
 import string
 import random
 import time
+import getLength
 
 seed = time.time()
 print(seed)
@@ -12,65 +13,32 @@ def main():
 
 	# obtain the problem file and throw it into a list object
 	shapes = open(sys.argv[2]).read().splitlines()
-	seed = open(sys.argv[1]).read().splitlines()
-
-	print(seed)
+	config = open(sys.argv[1]).read().splitlines()
 	
+	for rules in config:
+		info = rules.split(" ")
+		if info[0] == "fitness_evaluations":
+			evaluations = info[1]
+		elif info[0] == "runs":
+			num_runs = info[1]
+		elif info[0] == "prob_log":
+			prob_log_file = info[1]
+		elif info[0] == "prob_solution":
+			prob_solution_file = info[1]
+		else:
+			pass
+
+	print(evaluations + " " + num_runs + " " + prob_log_file + " " + prob_solution_file)
+
 	# Variables that will be used to set the 2d array of material
 	maxWidth = shapes[0].split(" ",1)[0]
-	maxLength = getLength(shapes)
+	maxLength = getLength.getLength(shapes)
 
-	# REMOVE THESE BEFORE SUBMISSION
-	print(maxWidth)
-	print(maxLength)
+	# runs through the program as many times as the config files says to
+	for run in range(0, int(num_runs)):
 
-
-	# the material sheet being used to cut out shapes
-	materialSheet = [[0 for x in range(0, int(maxWidth))] for y in range(0, int(maxLength))]
-
-	print(materialSheet)
-
-# will return the maxLength of the sheet of material
-def getLength(listShapes):
-	# variable to be sent back once the maximum length is found
-	maxLength = 0
-
-	for shape in listShapes:
-		# splits the lines of shape into lists so they can be iterated by word
-		moves = shape.split(" ")
-		if shape[0].isdigit(): # not a shape, dont increase maxLength
-			pass
-		elif 'L' not in shape and 'R' not in shape:
-			maxLength += 1
-		elif 'L' in shape and 'R' not in shape:
-			maxLength += 1
-			for element in moves:
-				if element[0] == 'L':
-					maxLength += int(element[1])
-		elif 'L' not in shape and 'R' in shape:
-			maxLength += 1
-			for element in moves:
-				if element[0] == 'R':
-					maxLength += int(element[1])
-		else:
-			# number of moves to the left and right
-			LCount = 0
-			RCount = 0
-
-			for element in moves:
-				if element[0] == 'L':
-					LCount += int(element[1])
-				elif element[0] == 'R':
-					RCount += int(element[1])
-
-			# Determine the larger and use it to increase the count
-			if LCount > RCount:
-				maxLength += LCount + 1
-			elif LCount < RCount:
-				maxLength += RCount + 1
-			else:
-				maxLength += LCount + 1
-	return maxLength
+		# the material sheet being used to cut out shapes
+		materialSheet = [[0 for x in range(0, int(maxWidth))] for y in range(0, int(maxLength))]
 
 
 if __name__ == '__main__':

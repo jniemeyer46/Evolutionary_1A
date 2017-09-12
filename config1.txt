@@ -1,5 +1,5 @@
 seed ??
 fitness_evaluations 1000
 runs 30
-prob1_log "prob1_log.txt"
-prob1_solution "prob1_solution.txt"
+prob_log "prob1_log.txt"
+prob_solution "prob1_solution.txt"
