@@ -4,13 +4,12 @@ import random
 import time
 import Length
 import rotate
-
+import shapeManipulation
 
 
 def main():
 	#obtain configs in a list format
 	config = open(sys.argv[1]).read().splitlines()
-
 
 	# obtain the problem file and throw it into a list object
 	shapes = open(sys.argv[2]).read().splitlines()
@@ -53,45 +52,52 @@ def main():
 		result_log.write("Run " + str(run) + "\n")
 
 		# run through the given amount of times given by fitness evaluation
-		for fitness in range(0, int(evaluations)):
+		for fitness in range(1, int(evaluations)+1):
 			# list of solution locations incase it is the best
 			solution_locations = []
 
 			# the material sheet being used to cut out shapes
-			#materialSheet = [[0 for x in range(0, int(maxWidth))] for y in range(0, int(maxLength))]
+			materialSheet = [[0 for x in range(0, int(maxWidth))] for y in range(0, int(maxLength))]
 
 			# for every shape in the file, choose a position
 			for shape in shapes:
-				placed = False
+				if not shape[0].isdigit():
+					valid = False
 
-				while not placed:
-					# generate random position and rotation
-					x_cord = random.randrange(0, int(maxLength))
-					y_cord = random.randrange(0, int(maxWidth))
-					rotation = random.randrange(0,4)
+					# Keep obtaining a new position until it fits on the material
+					while not valid:
+						# generate random position and rotation
+						x_cord = random.randrange(0, int(maxLength))
+						y_cord = random.randrange(0, int(maxWidth))
+						rotation = random.randrange(0,4)
 
-					if rotation != 0:
-						shape = rotate.rotate_shape(rotation, shape)
+						# Rotate the shape if needed
+						if rotation != 0:
+							shape = rotate.rotate_shape(rotation, shape)
 
-					placed = True
+						# Check whether the shape fits on the material in the current position
+						valid = shapeManipulation.validPlacement(materialSheet, maxLength, maxWidth, x_cord, y_cord, shape)
+							
+						# if the move was valid and was placed
+						if valid:
+							largest, smallest = shapeManipulation.placeShape(materialSheet, x_cord, y_cord, shape)
+							# store the location in a tuple if it worked
+							placementLocation = [x_cord, y_cord, rotation]
+							# append it to the list
+							solution_locations.append(placementLocation)
 
-					# store the location in a tuple if it worked
-					new_tup = (x_cord, y_cord, rotation)
-					# append it to the list
-					solution_locations.append(new_tup)
-
-			result_log.write(str(fitness + 1 ) + "	" + "score\n")
-			'''current_fitness = fitnessCalc(maxLength, usedLength)
-			if highest_fitness < current_fitness):
-				result_log.write(str(fitness + 1 ) + "	" + current_fitness + "\n")'''
-
+			usedLength = largest - smallest
+			current_fitness = fitnessCalc(maxLength, usedLength)
+			if highest_fitness < current_fitness:
+				highest_fitness = current_fitness
+				result_log.write(str(fitness + 1 ) + "	" + str(current_fitness) + "\n")
 		# formatting the result log with a space after each run block
 		result_log.write("\n")		
 
 	result_log.close()
 
 
-def fitness_Calc(maxLength, usedLength):
+def fitnessCalc(maxLength, usedLength):
 	# determine the fitness of the evaluation
 	fitness_calculation = maxLength - usedLength
 
