@@ -32,7 +32,7 @@ def main():
 
 	# Variables that will be used to set the 2d array of material
 	maxWidth = shapes[0].split(" ",1)[0]
-	maxLength = getLength.getLength(shapes)
+	maxLength = Length.getLength(shapes)
 
 	# runs through the program as many times as the config files says to
 	for run in range(0, int(num_runs)):
