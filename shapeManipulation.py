@@ -64,10 +64,6 @@ def placeShape(array, xCord, yCord, string):
 	#splits string into moves
 	moves = string.split(" ")
 
-	# Saves the largest X value
-	largeX = 0
-	smallX = 156
-
 	# used to save current x and y Positions
 	newXcord = xCord
 	newYcord = yCord
@@ -88,17 +84,7 @@ def placeShape(array, xCord, yCord, string):
 			for i in range(0, int(element[1])):
 				newXcord = newXcord + 1
 				array[newXcord][newYcord] = 1
-				if newXcord > largeX:
-					largeX = newXcord
-				if newXcord < smallX:
-					smallX = newXcord
 		elif element[0] == 'L':
 			for i in range(0, int(element[1])):
 				newXcord = newXcord - 1
 				array[newXcord][newYcord] = 1
-				if newXcord > largeX:
-					largeX = newXcord
-				if newXcord < smallX:
-					smallX = newXcord
-
-	return largeX, smallX

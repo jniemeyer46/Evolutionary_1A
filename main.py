@@ -48,6 +48,12 @@ def main():
 		# highest fitness calculation thus far this run
 		highest_fitness = 0
 
+		# Open the current solution file to obtain the fitness value
+		solution_file = open(prob_solution_file).read().splitlines()
+			
+		# grabs the solution file's fitness value
+		solution_fitness = solution_file[1].split(" ")[3]
+
 		# Titles each section with Run i, where i is the run number (1-30)
 		result_log.write("Run " + str(run) + "\n")
 
@@ -55,6 +61,10 @@ def main():
 		for fitness in range(1, int(evaluations)+1):
 			# list of solution locations incase it is the best
 			solution_locations = []
+
+			# holders for length of material used
+			LargestX = 0
+			SmallestX = 156
 
 			# the material sheet being used to cut out shapes
 			materialSheet = [[0 for x in range(0, int(maxWidth))] for y in range(0, int(maxLength))]
@@ -80,19 +90,40 @@ def main():
 							
 						# if the move was valid and was placed
 						if valid:
-							largest, smallest = shapeManipulation.placeShape(materialSheet, x_cord, y_cord, shape)
+							shapeManipulation.placeShape(materialSheet, x_cord, y_cord, shape)
 							# store the location in a tuple if it worked
-							placementLocation = [x_cord, y_cord, rotation]
+							placementLocation = (x_cord, y_cord, rotation)
 							# append it to the list
 							solution_locations.append(placementLocation)
 
-			usedLength = largest - smallest
+			# obtains the smallest and largest position in the material array
+			for i in range(len(materialSheet)):
+				if 1 in materialSheet[i]:
+					if i < SmallestX:
+						SmallestX = i
+					elif i > LargestX:
+						LargestX = i
+
+			# Determines the Length of the material used by this iteration
+			usedLength = ((LargestX - SmallestX) + 1)
+			#print(usedLength)
 			current_fitness = fitnessCalc(maxLength, usedLength)
 			if highest_fitness < current_fitness:
 				highest_fitness = current_fitness
 				result_log.write(str(fitness + 1 ) + "	" + str(current_fitness) + "\n")
+
+			# If the current solution is the best, replace the info in the file with the new solution
+			if int(solution_fitness) < highest_fitness:
+				solution_file = open(prob_solution_file, 'w')
+
+				solution_file.write("Solution File\n")
+				solution_file.write("Fitness Calculation = " + str(highest_fitness) + "\n\n")
+
+				for i in range(len(solution_locations)):
+					solution_file.write(str(solution_locations[i])[1:-1] + "\n")
+
 		# formatting the result log with a space after each run block
-		result_log.write("\n")		
+		result_log.write("\n")
 
 	result_log.close()
 
