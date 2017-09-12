@@ -1,9 +1,14 @@
 import sys
 import string
-import config1
+import random
+import time
 
+seed = time.time()
+print(seed)
+random.seed(seed)
+
+print(random.random())
 def main():
-	print(config1.random.randrange(1,21))
 
 	# obtain the problem file and throw it into a list object
 	shapes = open(sys.argv[2]).read().splitlines()

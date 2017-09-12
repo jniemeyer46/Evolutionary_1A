@@ -1,0 +1,6 @@
+random.seed(a = None)
+
+fitness_evaluations = 1000
+runs = 30
+log = "problem1_log.txt"
+solution = "problem1_solution.txt"
