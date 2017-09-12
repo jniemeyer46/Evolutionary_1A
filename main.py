@@ -2,7 +2,7 @@ import sys
 import string
 import random
 import time
-import getLength
+import Length
 
 seed = time.time()
 print(seed)
