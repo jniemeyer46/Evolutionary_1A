@@ -1,3 +1,5 @@
-import random
-from datetime import datetime
-random.seed(datetime.now())
+seed ??
+fitness_evaluations 1000
+runs 30
+prob2_log "prob2_log.txt"
+prob2_solution "prob2_solution.txt"

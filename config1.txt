@@ -1,6 +1,5 @@
-random.seed(a = None)
-
-fitness_evaluations = 1000
-runs = 30
-log = "problem1_log.txt"
-solution = "problem1_solution.txt"
+seed ??
+fitness_evaluations 1000
+runs 30
+prob1_log "prob1_log.txt"
+prob1_solution "prob1_solution.txt"

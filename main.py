@@ -12,6 +12,9 @@ def main():
 
 	# obtain the problem file and throw it into a list object
 	shapes = open(sys.argv[2]).read().splitlines()
+	seed = open(sys.argv[1]).read().splitlines()
+
+	print(seed)
 	
 	# Variables that will be used to set the 2d array of material
 	maxWidth = shapes[0].split(" ",1)[0]
@@ -20,6 +23,7 @@ def main():
 	# REMOVE THESE BEFORE SUBMISSION
 	print(maxWidth)
 	print(maxLength)
+
 
 	# the material sheet being used to cut out shapes
 	materialSheet = [[0 for x in range(0, int(maxWidth))] for y in range(0, int(maxLength))]
