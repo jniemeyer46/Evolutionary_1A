@@ -2,4 +2,5 @@ Plots.aux
 Plots.synctex.gz
 Plots.log
 *.numbers
+notes.txt
 __pycache__/
