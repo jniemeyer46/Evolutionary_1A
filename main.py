@@ -37,11 +37,16 @@ def main():
 	#number of shapes in the problem file
 	numShapes = shapes[0].split(" ")[1]
 
+	# delete the width and number of shapes from the shape list
+	del shapes[0]
+
 	# opening the log file 
 	result_log = open(prob_log_file, 'w')
 	# formatting the result log with Result Log at the top
-	result_log.write("Result Log\n")
-	result_log.write("Random Seed = " + str(seed) + "\n\n")
+	result_log.write("Result Log \n")
+	result_log.write("Problem Instance Path = ../%s \n" % sys.argv[2])
+	result_log.write("Random Seed = %s \n" % seed)
+	result_log.write("Parameters used = {'fitness evaluations': %s, 'number of runs': %s, 'problem solution location': '%s' \n\n}" % (evaluations, num_runs, prob_solution_file))
 
 	# runs through the program as many times as the config files says to
 	for run in range(1, int(num_runs) + 1):
